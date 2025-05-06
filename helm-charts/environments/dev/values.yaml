@@ -1,0 +1,13 @@
+global:
+  environment: dev
+
+catalogue:
+  image:
+    tag: dev-latest
+
+catalogue-db:
+  env:
+    POSTGRES_DB: catalogue-dev
+
+recommendation:
+  enabled: false

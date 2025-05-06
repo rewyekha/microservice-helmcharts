@@ -1,0 +1,19 @@
+global:
+  environment: dev
+  imagePullPolicy: IfNotPresent
+
+catalogue:
+  replicaCount: 2
+
+catalogue-db:
+  env:
+    POSTGRES_PASSWORD: "devops"
+
+frontend:
+  replicaCount: 1
+
+recommendation:
+  enabled: true
+
+voting:
+  enabled: true

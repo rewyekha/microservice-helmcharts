@@ -1,0 +1,18 @@
+replicaCount: 1
+
+image:
+  repository: my/craftista-frontend
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 3000
+  nodePort: 30080
+
+resources:
+  limits:
+    memory: "512Mi"
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
