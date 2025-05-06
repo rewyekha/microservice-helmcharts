@@ -1,0 +1,18 @@
+dependencies:
+- name: catalogue
+  repository: file://../charts/catalogue
+  version: 0.1.0
+- name: catalogue-db
+  repository: file://../charts/catalogue-db
+  version: 0.1.0
+- name: frontend
+  repository: file://../charts/frontend
+  version: 0.1.0
+- name: recommendation
+  repository: file://../charts/recommendation
+  version: 0.1.0
+- name: voting
+  repository: file://../charts/voting
+  version: 0.1.0
+digest: sha256:f53fc3f60f190c90dbd85e965a220fa4b8525e0a21587bcabde054907f1bc85a
+generated: "2025-05-06T12:12:40.884677+01:00"
