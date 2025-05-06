@@ -4,14 +4,14 @@ version: 1.0.0
 
 dependencies:
   - name: catalogue
-    version: "0.1.0"
+    version: "0.0.1"
     repository: "file://../charts/catalogue"
   - name: frontend
-    version: "0.1.0"
+    version: "0.0.1"
     repository: "file://../charts/frontend"
   - name: recommendation
-    version: "0.1.0"
+    version: "0.0.1"
     repository: "file://../charts/recommendation"
   - name: voting
-    version: "0.1.0"
+    version: "0.0.1"
     repository: "file://../charts/voting"
