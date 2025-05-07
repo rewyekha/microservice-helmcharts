@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: nitheesh86/microservice-voting:latest
+  repository: my/craftista-voting
   tag: latest
   pullPolicy: Always
 
