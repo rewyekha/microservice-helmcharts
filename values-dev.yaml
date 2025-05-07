@@ -5,7 +5,7 @@ catalogue:
     tag: "latest"
   service:
     type: ClusterIP
-    port: 8080
+    port: 6000
   resources:
     limits:
       cpu: 100m
@@ -33,7 +33,7 @@ frontend:
     repository: nitheesh86/microservice-frontend
     tag: "latest"
   service:
-    type: NodePort
+    type: ClusterIP
     port: 80
   env:
     API_BASE_URL: http://catalogue:8080
@@ -45,7 +45,7 @@ recommendation:
     tag: "latest"
   service:
     type: ClusterIP
-    port: 5000
+    port: 8080
   env:
     DB_HOST: catalogue-db
     DB_USER: catalogue
@@ -58,4 +58,4 @@ voting:
     tag: "latest"
   service:
     type: ClusterIP
-    port: 7000
+    port: 8081
