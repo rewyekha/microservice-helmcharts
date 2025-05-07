@@ -21,6 +21,8 @@ This Helm chart is an umbrella chart that deploys a set of microservices onto Ku
 1. **Navigate to the umbrella chart directory**:
    ```bash
    cd microservice-helmcharts
-2. Build dependencies:
-helm dependency build
-helm install . --generate-name --values values-dev.yaml
+2. **Install the chart with development values**:
+   helm install . --generate-name --values values-dev.yaml
+
+3. **Access services via Minikube:**
+   minikube service frontend
