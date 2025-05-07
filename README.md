@@ -10,20 +10,6 @@ This Helm chart is an umbrella chart that deploys a set of microservices onto Ku
 - `recommendation` – product recommendation engine
 - `voting` – voting/rating service for products
 
-## 📁 Directory Structure
-
-/
-├── Chart.yaml # Umbrella chart definition
-├── values.yaml # Global and subchart override values
-├── service-charts/
-│ ├── catalogue/ # Subchart for catalogue
-│ ├── catalogue-db/ # Subchart for PostgreSQL
-│ ├── frontend/ # Subchart for frontend UI
-│ ├── recommendation/ # Subchart for recommendation engine
-│ ├── voting/ # Subchart for voting service
-│ └── values-prod.yaml # Optional overrides for production
-
-
 ## 🚀 Prerequisites
 
 - [Helm 3.x](https://helm.sh/)
