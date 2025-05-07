@@ -1,0 +1,61 @@
+catalogue:
+  replicaCount: 2
+  image:
+    repository: my/craftista-catalogue
+    tag: "dev"
+  service:
+    type: ClusterIP
+    port: 8080
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+catalogue-db:
+  replicaCount: 1
+  image:
+    repository: postgres
+    tag: "dev"
+  service:
+    type: ClusterIP
+    port: 5432
+  postgres:
+    user: catalogue
+    password: catalogue123
+    db: catalogue-db
+
+frontend:
+  replicaCount: 2
+  image:
+    repository: my/craftista-frontend
+    tag: "dev"
+  service:
+    type: LoadBalancer
+    port: 80
+  env:
+    API_BASE_URL: http://catalogue:8080
+
+recommendation:
+  replicaCount: 2
+  image:
+    repository: my/craftista-recco
+    tag: "dev"
+  service:
+    type: ClusterIP
+    port: 5000
+  env:
+    DB_HOST: catalogue-db
+    DB_USER: catalogue
+    DB_PASS: catalogue123
+
+voting:
+  replicaCount: 1
+  image:
+    repository: my/craftista-voting
+    tag: "dev"
+  service:
+    type: ClusterIP
+    port: 7000

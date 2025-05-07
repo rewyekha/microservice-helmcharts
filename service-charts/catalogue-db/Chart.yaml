@@ -2,5 +2,5 @@ apiVersion: v2
 name: catalogue-db
 description: A Helm chart for PostgreSQL database used by catalogue service
 type: application
-version: 0.0.1
+version: 0.1.0
 appVersion: "16.2"
