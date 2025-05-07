@@ -33,10 +33,10 @@ frontend:
     repository: nitheesh86/microservice-frontend
     tag: "latest"
   service:
-    type: ClusterIP
-    port: 80
+    type: NodePort
+    port: 30080
   env:
-    API_BASE_URL: http://catalogue:8080
+    API_BASE_URL: http://catalogue:6000
 
 recommendation:
   replicaCount: 2
@@ -48,8 +48,10 @@ recommendation:
     port: 8080
   env:
     DB_HOST: catalogue-db
+    DB_PORT: 5432
     DB_USER: catalogue
     DB_PASS: catalogue123
+    DB_NAME: catalogue-db
 
 voting:
   replicaCount: 1
@@ -59,3 +61,5 @@ voting:
   service:
     type: ClusterIP
     port: 8081
+  env:
+    CATALOGUE_SERVICE_URL: http://catalogue:6000

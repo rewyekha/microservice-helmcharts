@@ -5,8 +5,8 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.port }}
+    - port: 3000
+      targetPort: 3000
       nodePort: {{ .Values.service.nodePort }}
   selector:
     app: {{ include "microservice-frontend.fullname" . }}

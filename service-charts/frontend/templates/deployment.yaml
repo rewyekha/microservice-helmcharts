@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "microservice-frontend.fullname" . }}
+  name: frontend
   labels:
-    app: {{ include "microservice-frontend.fullname" . }}
+    app: frontend
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "microservice-frontend.fullname" . }}
+      app: frontend
   template:
     metadata:
       labels:
-        app: {{ include "microservice-frontend.fullname" . }}
+        app: frontend
     spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.service.port }}
+            - containerPort: 3000
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

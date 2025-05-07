@@ -6,7 +6,7 @@ image:
   pullPolicy: Always
 
 service:
-  type: clusterIP
+  type: NodePort
   port: 80
 
 resources:
