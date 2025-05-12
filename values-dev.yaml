@@ -35,8 +35,6 @@ frontend:
   service:
     type: NodePort
     port: 30080
-  env:
-    API_BASE_URL: http://catalogue:6000
 
 recommendation:
   replicaCount: 2
@@ -61,5 +59,3 @@ voting:
   service:
     type: ClusterIP
     port: 8081
-  env:
-    CATALOGUE_SERVICE_URL: http://catalogue:6000
