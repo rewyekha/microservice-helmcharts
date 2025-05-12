@@ -5,7 +5,7 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.frontend.service.port }}
+    - port: {{ .Values.service.port | default 80 }}
       targetPort: 3000
       nodePort: {{ .Values.service.nodePort }}
   selector:
