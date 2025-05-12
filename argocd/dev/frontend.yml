@@ -7,7 +7,7 @@ spec:
   project: craftista
   source:
     repoURL: https://github.com/nitheeshp-irl/microservice-helmcharts
-    targetRevision: HEAD
+    targetRevision: main
     path: service-charts/frontend
     helm:
       valueFiles:
