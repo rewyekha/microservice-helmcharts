@@ -6,6 +6,12 @@ catalogue:
   service:
     type: ClusterIP
     port: 6000
+  env:
+    DB_HOST: catalogue-db
+    DB_PORT: 5432
+    DB_USER: catalogue
+    DB_PASS: catalogue123
+    DB_NAME: catalogue-db
   resources:
     limits:
       cpu: 100m
@@ -18,7 +24,7 @@ catalogue-db:
   replicaCount: 1
   image:
     repository: postgres
-    tag: "latest"
+    tag: "16.2-alpine3.19"
   service:
     type: ClusterIP
     port: 5432
@@ -26,6 +32,12 @@ catalogue-db:
     user: catalogue
     password: catalogue123
     db: catalogue-db
+  env:
+    POSTGRES_USER: catalogue
+    POSTGRES_PASSWORD: catalogue123
+    POSTGRES_DB: catalogue-db
+  persistence:
+    enabled: false  # Set true if using PVCs
 
 frontend:
   replicaCount: 2
@@ -35,6 +47,9 @@ frontend:
   service:
     type: NodePort
     port: 30080
+  env:
+    VITE_API_BASE_URL: http://catalogue:6000
+  resources: {}
 
 recommendation:
   replicaCount: 2
@@ -50,6 +65,7 @@ recommendation:
     DB_USER: catalogue
     DB_PASS: catalogue123
     DB_NAME: catalogue-db
+  resources: {}
 
 voting:
   replicaCount: 1
@@ -59,3 +75,6 @@ voting:
   service:
     type: ClusterIP
     port: 8081
+  env:
+    API_BASE_URL: http://catalogue:6000
+  resources: {}
