@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: my/craftista-frontend
+  repository: nitheesh86/microservice-frontend
   tag: latest
   pullPolicy: Always
 
