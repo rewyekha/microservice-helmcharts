@@ -1,0 +1,9 @@
+frontend:
+  replicaCount: 2
+  image:
+    repository: nitheesh86/microservice-frontend
+    tag: "latest"
+  service:
+    type: NodePort
+    port: 30080
+  resources: {}
