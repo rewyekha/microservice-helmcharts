@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: craftista-frontend-dev
+  namespace: demo
+spec:
+  destination:
+    namespace: demo
+    server: https://kubernetes.default.svc
+  source:
+    path: helm/service-charts/frontend
+    repoURL: https://github.com/nitheeshp-irl/microservice-helmcharts.git
+    targetRevision: main
+    helm:
+      valueFiles:
+        - env/dev/values-dev.yaml
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
