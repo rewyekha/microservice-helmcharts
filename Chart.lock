@@ -1,18 +1,18 @@
 dependencies:
 - name: catalogue
   repository: file://service-charts/catalogue
-  version: 0.1.0
+  version: 0.1.1
 - name: catalogue-db
   repository: file://service-charts/catalogue-db
-  version: 0.1.0
+  version: 0.1.1
 - name: frontend
   repository: file://service-charts/frontend
-  version: 0.1.0
+  version: 0.1.1
 - name: recommendation
   repository: file://service-charts/recommendation
-  version: 0.1.0
+  version: 0.1.1
 - name: voting
   repository: file://service-charts/voting
-  version: 0.1.0
-digest: sha256:f33e21e0c05ec343d20aab5a20775643577afd7af5917ad02d0c338894545076
-generated: "2025-05-07T16:05:17.047728+01:00"
+  version: 0.1.1
+digest: sha256:158a98149f496ef80e01d29f2d80357a8a6c87292737408f925b83be7c9d314d
+generated: "2025-05-12T15:15:58.822768+01:00"
