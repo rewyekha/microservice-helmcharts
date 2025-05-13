@@ -4,6 +4,6 @@ frontend:
     repository: nitheesh86/microservice-frontend
     tag: "latest"
   service:
-    type: NodePort
+    type: ClusterIP
     port: 30080
   resources: {}
