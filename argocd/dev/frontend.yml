@@ -11,7 +11,7 @@ spec:
     path: service-charts/frontend
     helm:
       valueFiles:
-        - env/dev.yaml
+        - ../../env/dev/frontend.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: demo
