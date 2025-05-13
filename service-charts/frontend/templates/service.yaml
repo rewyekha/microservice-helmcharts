@@ -7,6 +7,5 @@ spec:
   ports:
     - port: {{ .Values.service.port | default 80 }}
       targetPort: 3000
-      nodePort: {{ .Values.service.nodePort }}
   selector:
     app: {{ include "microservice-frontend.fullname" . }}
