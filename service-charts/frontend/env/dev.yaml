@@ -1,7 +1,7 @@
 frontend:
   replicaCount: 2
   image:
-    repository: nitheesh86/microservice-frontend
+    repository: nitheesh86/microservice-frontend:dev
     tag: "dev"
   service:
     type: ClusterIP
