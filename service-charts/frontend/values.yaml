@@ -6,7 +6,7 @@ image:
   pullPolicy: Always
 
 service:
-  type: nodePort
+  type: NodePort
   port: 80
 
 resources:
