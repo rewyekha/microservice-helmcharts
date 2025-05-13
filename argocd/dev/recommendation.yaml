@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: recommendation-dev
+  namespace: argocd
+spec:
+  project: craftista
+  source:
+    repoURL: https://github.com/nitheeshp-irl/microservice-helmcharts
+    targetRevision: main
+    path: service-charts/recommendation
+    helm:
+      valueFiles:
+        - ../../env/dev/recommendation.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
