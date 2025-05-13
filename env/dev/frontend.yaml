@@ -1,8 +1,12 @@
 replicaCount: 2
+
 image:
   repository: nitheesh86/microservice-frontend
   tag: "latest"
-service:
-  type: ClusterIP
-  port: 30080
-resources: {}
+
+resources:
+  limits:
+    memory: "512Mi"
+  requests:
+    cpu: "200m"
+    memory: "128Mi"
