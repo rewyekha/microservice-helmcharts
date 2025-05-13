@@ -1,9 +1,8 @@
-frontend:
-  replicaCount: 2
-  image:
-    repository: nitheesh86/microservice-frontend:dev
-    tag: "dev"
-  service:
-    type: ClusterIP
-    port: 30080
-  resources: {}
+replicaCount: 2
+image:
+  repository: nitheesh86/microservice-frontend
+  tag: "dev"
+service:
+  type: ClusterIP
+  port: 30080
+resources: {}
