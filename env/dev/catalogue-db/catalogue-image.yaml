@@ -1,4 +1,4 @@
-
 image:
-  repository: nitheesh86/microservice-frontend
-  tag: "latest"
+  repository: postgres
+  tag: 16.2-alpine3.19
+  pullPolicy: IfNotPresent

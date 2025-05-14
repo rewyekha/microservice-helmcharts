@@ -1,4 +1,3 @@
-
 image:
-  repository: nitheesh86/microservice-frontend
+  repository: nitheesh86/microservice-catalogue
   tag: "latest"

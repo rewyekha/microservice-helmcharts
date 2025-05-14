@@ -1,9 +1,5 @@
 replicaCount: 2
 
-image:
-  repository: nitheesh86/microservice-recommendation
-  tag: "latest"
-
 
 resources:
   limits:
