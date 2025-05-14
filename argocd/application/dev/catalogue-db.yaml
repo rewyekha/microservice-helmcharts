@@ -1,17 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: frontend-dev
+  name: catalogue-db-dev
   namespace: argocd
 spec:
   project: craftista
   source:
     repoURL: https://github.com/nitheeshp-irl/microservice-helmcharts
     targetRevision: main
-    path: service-charts/frontend
+    path: service-charts/catalogue-db
     helm:
       valueFiles:
-        - ../../env/dev/frontend.yaml
+        - ../../env/dev/catalogue-db.yaml
+        
   destination:
     server: https://kubernetes.default.svc
     namespace: demo
