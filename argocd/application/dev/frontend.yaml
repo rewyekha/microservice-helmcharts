@@ -13,6 +13,7 @@ spec:
       valueFiles:
         - ../../env/dev/frontend.yaml
         - ../../env/dev/frontend-image.yaml
+        
   destination:
     server: https://kubernetes.default.svc
     namespace: demo
