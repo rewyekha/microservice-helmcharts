@@ -1,7 +1,4 @@
 replicaCount: 2
-
-
-
 resources:
   limits:
     memory: "512Mi"
