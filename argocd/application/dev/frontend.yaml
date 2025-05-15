@@ -7,6 +7,7 @@ metadata:
     argocd-image-updater.argoproj.io/image-list: docker.io/nitheesh86/microservice-frontend
     argocd-image-updater.argoproj.io/update-strategy: semver
     argocd-image-updater.argoproj.io/write-back-method: argocd
+    argocd-image-updater.argoproj.io/myalias.force-update: "true"
 spec:
   project: craftista
   source:
