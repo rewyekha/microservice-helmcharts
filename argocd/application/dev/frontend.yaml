@@ -3,6 +3,10 @@ kind: Application
 metadata:
   name: frontend-dev
   namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: docker.io/nitheesh86/microservice-frontend
+    argocd-image-updater.argoproj.io/update-strategy: semver
+    argocd-image-updater.argoproj.io/write-back-method: argocd
 spec:
   project: craftista
   source:
@@ -10,9 +14,11 @@ spec:
     targetRevision: main
     path: service-charts/frontend
     helm:
-      valueFiles:
-        - ../../env/dev/frontend.yaml
-        - ../../env/dev/frontend-image.yaml
+      parameters:
+        - name: image.repository
+          value: docker.io/nitheesh86/microservice-frontend
+        - name: image.tag
+          value: "latest"
         
   destination:
     server: https://kubernetes.default.svc
