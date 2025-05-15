@@ -18,7 +18,7 @@ spec:
         - name: image.repository
           value: docker.io/nitheesh86/microservice-frontend
         - name: image.tag
-          value: "latest"
+          value: "1.0.0"
         
   destination:
     server: https://kubernetes.default.svc
