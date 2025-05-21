@@ -2,7 +2,9 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: dev
-  namespace: frontend
+  namespace: craftista
+  annotations:
+    kargo.akuity.io/color: blue
 spec:
   requestedFreight:
     - origin:
@@ -12,7 +14,9 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: stage
-  namespace: frontend
+  namespace: craftista
+  annotations:
+    kargo.akuity.io/color: orange
 spec:
   requestedFreight:
     - origin:
@@ -22,7 +26,9 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: prod
-  namespace: frontend
+  namespace: craftista
+  annotations:
+    kargo.akuity.io/color: red
 spec:
   requestedFreight:
     - origin:

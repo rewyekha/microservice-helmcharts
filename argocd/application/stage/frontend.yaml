@@ -10,11 +10,8 @@ spec:
     targetRevision: main
     path: service-charts/frontend
     helm:
-      parameters:
-        - name: image.repository
-          value: docker.io/nitheesh86/microservice-frontend
-        - name: image.tag
-          value: "1.0.0"
+      valueFiles:
+          - "/env/stage/frontend/frontend-values.yaml"
   destination:
     server: https://kubernetes.default.svc
     namespace: frontend-staging

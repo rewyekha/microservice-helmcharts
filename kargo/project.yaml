@@ -1,5 +1,5 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Project
 metadata:
-  name: frontend
+  name: craftista
   namespace: kargo-system

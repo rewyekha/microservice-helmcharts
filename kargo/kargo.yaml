@@ -18,6 +18,8 @@ spec:
           value: "$$2y$$10$$GeMd2gLHaRU1It7mYcaOp.CrcEizZA6GDSiA8cEeUAYKApqnPoVWC"
         - name: api.adminAccount.tokenSigningKey
           value: "1nOOlPfrLLyR4NZt3oeuCgdzXejgelum"
+        - name: crds.install
+          value: "true"
   syncPolicy:
     automated:
       prune: true
