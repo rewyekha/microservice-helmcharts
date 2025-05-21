@@ -1,22 +1,26 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: catalogue-stage
+  name: frontend-staging
   namespace: argocd
 spec:
   project: craftista
   source:
     repoURL: https://github.com/nitheeshp-irl/microservice-helmcharts
     targetRevision: main
-    path: service-charts/catalogue
+    path: service-charts/frontend
     helm:
-      valueFiles:
-        - ../../env/stage/catalogue/catalogue.yaml
-        - ../../env/stage/catalogue/catalogue-image.yaml
+      parameters:
+        - name: image.repository
+          value: docker.io/nitheesh86/microservice-frontend
+        - name: image.tag
+          value: "1.0.0"
   destination:
     server: https://kubernetes.default.svc
-    namespace: stage
+    namespace: frontend-staging
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

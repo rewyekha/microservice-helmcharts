@@ -2,6 +2,8 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Freight
 metadata:
   name: frontend-freight
-  namespace: kargo-system
+  namespace: frontend
   labels:
     kargo.akuity.io/alias: latest
+origin:
+  kind: Warehouse

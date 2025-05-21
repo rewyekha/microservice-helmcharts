@@ -2,11 +2,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
   name: frontend-warehouse
-  namespace: kargo-system
+  namespace: frontend
 spec:
   interval: 5m
-  subscriptions:
-    - git:
-        url: https://github.com/nitheeshp-irl/microservice-helmcharts
-        revision: main
-        directory: env/dev/frontend
+  subscriptions: []

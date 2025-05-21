@@ -2,60 +2,28 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: dev
-  namespace: kargo-system
+  namespace: frontend
 spec:
   requestedFreight:
     - origin:
-        warehouse: frontend-warehouse
-        namespace: kargo-system
-      sources:
-        warehouse: {}
-  promotionTemplate:
-    spec:
-      steps:
-        - gitRepoUpdate:
-            repoURL: https://github.com/nitheeshp-irl/microservice-helmcharts
-            branch: main
-            updates:
-              - fromPath: env/dev/frontend
-                toPath: env/stage/frontend
+        kind: Warehouse
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: stage
-  namespace: kargo-system
+  namespace: frontend
 spec:
   requestedFreight:
     - origin:
-        warehouse: frontend-warehouse
-        namespace: kargo-system
-      sources:
-        stages:
-          - name: dev
-            namespace: kargo-system
-  promotionTemplate:
-    spec:
-      steps:
-        - approval: {}
-        - gitRepoUpdate:
-            repoURL: https://github.com/nitheeshp-irl/microservice-helmcharts
-            branch: main
-            updates:
-              - fromPath: env/stage/frontend
-                toPath: env/prod/frontend
+        kind: Warehouse
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: prod
-  namespace: kargo-system
+  namespace: frontend
 spec:
   requestedFreight:
     - origin:
-        warehouse: frontend-warehouse
-        namespace: kargo-system
-      sources:
-        stages:
-          - name: stage
-            namespace: kargo-system
+        kind: Warehouse

@@ -3,11 +3,6 @@ kind: Application
 metadata:
   name: frontend-dev
   namespace: argocd
-  annotations:
-    argocd-image-updater.argoproj.io/image-list: docker.io/nitheesh86/microservice-frontend-dev
-    argocd-image-updater.argoproj.io/update-strategy: semver
-    argocd-image-updater.argoproj.io/write-back-method: argocd
-    argocd-image-updater.argoproj.io/myalias.force-update: "true"
 spec:
   project: craftista
   source:
@@ -20,11 +15,12 @@ spec:
           value: docker.io/nitheesh86/microservice-frontend
         - name: image.tag
           value: "1.0.0"
-        
   destination:
     server: https://kubernetes.default.svc
-    namespace: demo
+    namespace: frontend-dev
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
