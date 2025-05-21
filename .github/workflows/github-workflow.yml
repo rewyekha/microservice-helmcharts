@@ -1,0 +1,165 @@
+name: GitOps Promotion Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      service:
+        description: 'Service to promote'
+        required: true
+        type: choice
+        options:
+          - catalogue
+          - catalogue-db
+          - frontend
+          - recommendation
+          - voting
+      environment:
+        description: 'Target environment'
+        required: true
+        type: choice
+        options:
+          - stage
+          - prod
+      auto_approve:
+        description: 'Auto-approve promotion'
+        required: true
+        type: boolean
+        default: false
+  # Auto-trigger when dev images are updated
+  push:
+    paths:
+      - 'env/dev/*/image.yaml'
+
+jobs:
+  verify-dev-deployment:
+    if: github.event_name == 'push' || github.event.inputs.environment == 'stage'
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.check-deployment.outputs.status }}
+      services: ${{ steps.get-services.outputs.services }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      
+      - name: Get changed services
+        id: get-services
+        run: |
+          if [ "${{ github.event_name }}" == "push" ]; then
+            CHANGED_FILES=$(git diff --name-only HEAD^ HEAD | grep 'env/dev/.*/.*-image.yaml' || echo "")
+            SERVICES=$(echo "$CHANGED_FILES" | sed -E 's/env\/dev\/(.*)\/.*-image.yaml/\1/' | tr '\n' ' ')
+            echo "services=$SERVICES" >> $GITHUB_OUTPUT
+          else
+            echo "services=${{ github.event.inputs.service }}" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+      
+      - name: Configure kubeconfig
+        run: |
+          # Replace with your actual command to get kubeconfig for dev cluster
+          # Example: aws eks update-kubeconfig --name dev-cluster --region us-west-2
+          echo "Configuring kubeconfig for dev cluster"
+      
+      - name: Check deployment status
+        id: check-deployment
+        run: |
+          SERVICES="${{ steps.get-services.outputs.services }}"
+          ALL_HEALTHY=true
+          
+          for SERVICE in $SERVICES; do
+            echo "Checking deployment status for $SERVICE in dev environment"
+            
+            # Check if deployment is healthy
+            # Replace with your actual command to check deployment status
+            # Example: kubectl rollout status deployment/$SERVICE -n demo --timeout=30s
+            
+            if [ "$?" -ne 0 ]; then
+              echo "Deployment for $SERVICE is not healthy in dev"
+              ALL_HEALTHY=false
+              break
+            fi
+          done
+          
+          if [ "$ALL_HEALTHY" = true ]; then
+            echo "status=success" >> $GITHUB_OUTPUT
+          else
+            echo "status=failure" >> $GITHUB_OUTPUT
+          fi
+
+  auto-promote-to-stage:
+    needs: verify-dev-deployment
+    if: github.event_name == 'push' && needs.verify-dev-deployment.outputs.status == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Promote changed services to staging
+        run: |
+          SERVICES="${{ needs.verify-dev-deployment.outputs.services }}"
+          for SERVICE in $SERVICES; do
+            echo "Auto-promoting $SERVICE to staging"
+            chmod +x ./promotion/scripts/promote-to-stage.sh
+            ./promotion/scripts/promote-to-stage.sh $SERVICE
+          done
+      
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add env/stage/
+          git commit -m "Auto-promote services to staging" || echo "No changes to commit"
+          git push
+
+  promote-to-stage:
+    needs: verify-dev-deployment
+    if: github.event.inputs.environment == 'stage' && needs.verify-dev-deployment.outputs.status == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Promote to staging
+        run: |
+          chmod +x ./promotion/scripts/promote-to-stage.sh
+          ./promotion/scripts/promote-to-stage.sh ${{ github.event.inputs.service }}
+      
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add env/stage/
+          git commit -m "Promote ${{ github.event.inputs.service }} to staging" || echo "No changes to commit"
+          git push
+
+  request-prod-approval:
+    if: ${{ github.event.inputs.environment == 'prod' && github.event.inputs.auto_approve == 'false' }}
+    runs-on: ubuntu-latest
+    environment: production-approval
+    steps:
+      - name: Request approval for production deployment
+        run: echo "Approval requested for promoting ${{ github.event.inputs.service }} to production"
+
+  promote-to-prod:
+    needs: [request-prod-approval]
+    if: ${{ github.event.inputs.environment == 'prod' || github.event.inputs.auto_approve == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Promote to production
+        run: |
+          chmod +x ./promotion/scripts/promote-to-prod.sh
+          ./promotion/scripts/promote-to-prod.sh ${{ github.event.inputs.service }}
+      
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add env/prod/
+          git commit -m "Promote ${{ github.event.inputs.service }} to production" || echo "No changes to commit"
+          git push

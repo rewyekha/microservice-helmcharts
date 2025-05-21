@@ -1,28 +1,91 @@
-# Microservices Helm Umbrella Chart
+# Microservice Helm Charts
 
-This Helm chart is an umbrella chart that deploys a set of microservices onto Kubernetes. Each microservice is packaged as an individual Helm subchart.
+This repository contains Helm charts and GitOps configurations for deploying and promoting microservices across environments.
 
-## 📦 Included Microservices
+## Repository Structure
 
-- `catalogue` – the main product catalogue service
-- `catalogue-db` – PostgreSQL database for the catalogue service
-- `frontend` – user-facing frontend
-- `recommendation` – product recommendation engine
-- `voting` – voting/rating service for products
+```
+microservice-helmcharts/
+├── argocd/                # ArgoCD application manifests
+│   └── application/       # Application definitions
+│       ├── dev/           # Development environment applications
+│       ├── stage/         # Staging environment applications
+│       └── prod/          # Production environment applications
+├── env/                   # Environment-specific configurations
+│   ├── dev/               # Development environment values
+│   ├── stage/             # Staging environment values
+│   └── prod/              # Production environment values
+├── kargo/                 # Kargo promotion configuration
+│   ├── stages.yaml        # Stage definitions
+│   ├── freight.yaml       # Freight definition
+│   ├── warehouse.yaml     # Warehouse configuration
+│   ├── analysis-template.yaml # Deployment verification
+│   └── promotion-policy.yaml  # Promotion policies
+├── service-charts/        # Helm charts for each microservice
+└── promotion/             # Legacy promotion scripts
+    ├── scripts/           # Promotion scripts
+    └── workflows/         # CI/CD workflow definitions
+```
 
-## 🚀 Prerequisites
+## GitOps Promotion Strategy with Kargo
 
-- [Helm 3.x](https://helm.sh/)
-- [Minikube](https://minikube.sigs.k8s.io/) or another Kubernetes cluster
-- Docker images for your microservices should be available in a registry
+This repository implements a GitOps-based promotion strategy using Kargo:
 
-## 🛠 Setup Instructions
+1. **Automated deployment to development**:
+   - New Docker images are automatically detected and deployed to the dev environment
+   - ArgoCD syncs changes to the dev cluster
 
-1. **Navigate to the umbrella chart directory**:
+2. **Automatic promotion to staging with verification**:
+   - After successful deployment in dev, Kargo verifies the deployment health
+   - If verification passes, Kargo automatically promotes to staging
+   - Promotion updates the staging environment configuration files
+
+3. **Manual approval for production**:
+   - Production deployments require manual approval in Kargo
+   - After approval, Kargo updates the production configuration files
+
+## Setup Instructions
+
+### Prerequisites
+
+1. Kubernetes clusters for dev, stage, and prod environments
+2. ArgoCD installed on all clusters
+3. Kargo installed on all clusters
+
+### Installation
+
+1. Install Kargo:
    ```bash
-   cd microservice-helmcharts
-2. **Install the chart with development values**:
-   helm install . --generate-name --values values-dev.yaml
+   kubectl apply -f https://github.com/akuity/kargo/releases/latest/download/install.yaml
+   ```
 
-3. **Access services via Minikube:**
-   minikube service frontend
+2. Apply Kargo configurations:
+   ```bash
+   kubectl apply -f kargo/
+   ```
+
+3. Apply ArgoCD applications:
+   ```bash
+   kubectl apply -f argocd/application/dev/
+   kubectl apply -f argocd/application/stage/
+   kubectl apply -f argocd/application/prod/
+   ```
+
+## Usage
+
+### Promoting with Kargo
+
+1. View available Freight:
+   ```bash
+   kubectl get freight -n kargo-system
+   ```
+
+2. Manually promote to production:
+   ```bash
+   kubectl kargo promote microservices-freight --stage stage --to-stage prod -n kargo-system
+   ```
+
+3. View promotion history:
+   ```bash
+   kubectl get promotions -n kargo-system
+   ```
