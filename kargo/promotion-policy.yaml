@@ -1,7 +1,7 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Promotion
 metadata:
-  name: dev-to-stage
+  name: promote-image
   namespace: craftista
 spec:
   stage: stage
