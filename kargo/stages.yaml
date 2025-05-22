@@ -10,11 +10,18 @@ spec:
     - origin:
         kind: Warehouse
         name: frontend-warehouse
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      steps:
+        - task:
+            name: promote-to-staging
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: stage
+  name: frontend-staging-stage
   namespace: craftista
   annotations:
     kargo.akuity.io/color: orange
@@ -23,11 +30,19 @@ spec:
     - origin:
         kind: Warehouse
         name: frontend-warehouse
+      sources:
+        stages:
+          - frontend-dev-stage
+  promotionTemplate:
+    spec:
+      steps:
+        - task:
+            name: promote-to-prod
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: prod
+  name: frontend-prod-stage
   namespace: craftista
   annotations:
     kargo.akuity.io/color: red
@@ -36,3 +51,6 @@ spec:
     - origin:
         kind: Warehouse
         name: frontend-warehouse
+      sources:
+        stages:
+          - frontend-staging-stage

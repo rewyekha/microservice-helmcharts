@@ -1,10 +1,11 @@
 apiVersion: kargo.akuity.io/v1alpha1
-kind: Promotion
+kind: PromotionPolicy
 metadata:
-  name: promote-image
+  name: frontend-auto-promote
   namespace: craftista
 spec:
-  stage: stage
-  freight: latest
-  steps:
-    - uses: approval
+  sourceStages:
+    - name: frontend-dev-stage
+  targetStage:
+    name: frontend-staging-stage
+  autoPromotionEnabled: true
