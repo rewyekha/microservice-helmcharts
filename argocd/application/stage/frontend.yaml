@@ -11,7 +11,7 @@ spec:
     path: service-charts/frontend
     helm:
       valueFiles:
-          - "/env/stage/frontend/frontend-values.yaml"
+          - "/env/staging/frontend/frontend-values.yaml"
   destination:
     server: https://kubernetes.default.svc
     namespace: frontend-staging

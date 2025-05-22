@@ -1,5 +1,9 @@
 replicaCount: 2
 
+image:
+  repository: nitheesh86/microservice-frontend
+  tag: "latest"
+  
 resources:
   limits:
     memory: "512Mi"
