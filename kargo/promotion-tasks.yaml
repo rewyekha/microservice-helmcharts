@@ -4,52 +4,20 @@ metadata:
   name: promote-to-staging
   namespace: craftista
 spec:
-  vars:
-    - name: repoURL
-      value: https://github.com/nitheeshp-irl/microservice-helmcharts
-    - name: branch
-      value: main
-    - name: image
-      value: docker.io/nitheesh86/microservice-frontend
   steps:
     - uses: git-clone
       config:
-        repoURL: ${{ vars.repoURL }}
+        repoURL: https://nitheeshp-irl:xxxxxxxxx@github.com/nitheeshp-irl/microservice-helmcharts.git
         checkout:
-          - commit: ${{ commitFrom(vars.repoURL).ID }}
-            path: ./src
-          - branch: env/stage
-            path: ./out
-            create: true
-    - uses: git-clear
-      config:
-        path: ./out
-    - uses: kustomize-set-image
-      as: update-image
-      config:
-        path: ./src/env/dev/frontend
-        images:
-          - image: ${{ vars.image }}
-            tag: ${{ imageFrom(vars.image).Tag }}
-    - uses: kustomize-build
-      config:
-        path: ./src/env/dev/frontend
-        outPath: ./out
+          - branch: main
+            path: ./repo
     - uses: git-commit
-      as: commit
       config:
-        path: ./out
-        message: ${{ task.outputs['update-image'].commitMessage }}
+        path: ./repo
+        message: "Promote frontend from dev to stage"
     - uses: git-push
       config:
-        path: ./out
-    - uses: argocd-update
-      config:
-        apps:
-          - name: frontend-stage
-            sources:
-              - repoURL: ${{ vars.repoURL }}
-                desiredRevision: ${{ task.outputs['commit'].commit }}
+        path: ./repo
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: PromotionTask
@@ -57,49 +25,17 @@ metadata:
   name: promote-to-prod
   namespace: craftista
 spec:
-  vars:
-    - name: repoURL
-      value: https://github.com/nitheeshp-irl/microservice-helmcharts
-    - name: branch
-      value: main
-    - name: image
-      value: docker.io/nitheesh86/microservice-frontend
   steps:
     - uses: git-clone
       config:
-        repoURL: ${{ vars.repoURL }}
+        repoURL: https://nitheeshp-irl:xxxxxxxxx@github.com/nitheeshp-irl/microservice-helmcharts.git
         checkout:
-          - commit: ${{ commitFrom(vars.repoURL).ID }}
-            path: ./
-          - branch: env/prod
-            path: ./out
-            create: true
-    - uses: git-clear
-      config:
-        path: ./out
-    - uses: kustomize-set-image
-      as: update-image
-      config:
-        path: ./src/env/stage/frontend
-        images:
-          - image: ${{ vars.image }}
-            tag: ${{ imageFrom(vars.image).Tag }}
-    - uses: kustomize-build
-      config:
-        path: ./env/staging/frontend
-        outPath: ./out
+          - branch: main
+            path: ./repo
     - uses: git-commit
-      as: commit
       config:
-        path: ./out
-        message: ${{ task.outputs['update-image'].commitMessage }}
+        path: ./repo
+        message: "Promote frontend from stage to prod"
     - uses: git-push
       config:
-        path: ./out
-    - uses: argocd-update
-      config:
-        apps:
-          - name: frontend-prod
-            sources:
-              - repoURL: ${{ vars.repoURL }}
-                desiredRevision: ${{ task.outputs['commit'].commit }}
+        path: ./repo
