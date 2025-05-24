@@ -88,4 +88,4 @@ This repository implements a GitOps-based promotion strategy using Kargo:
 3. View promotion history:
    ```bash
    kubectl get promotions -n kargo-system
-   ```
+   ```# test
