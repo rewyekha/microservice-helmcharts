@@ -1,6 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+namespace: craftista
+
 resources:
-- project.yaml
-- stages.yaml
+  - project.yaml
+  - warehouse.yaml
+  - stages.yaml
+  - promotion-tasks.yaml

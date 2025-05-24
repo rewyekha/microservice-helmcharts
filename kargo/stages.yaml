@@ -4,7 +4,7 @@ metadata:
   name: frontend-dev-stage
   namespace: craftista
   annotations:
-    kargo.akuity.io/color: blue
+    kargo.akuity.io/color: green
 spec:
   requestedFreight:
     - origin:
@@ -29,7 +29,7 @@ metadata:
   name: frontend-staging-stage
   namespace: craftista
   annotations:
-    kargo.akuity.io/color: orange
+    kargo.akuity.io/color: blue
 spec:
   requestedFreight:
     - origin:
@@ -48,3 +48,29 @@ spec:
               value: env/staging/frontend
             - name: argocdApp
               value: frontend-staging
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: frontend-prod-stage
+  namespace: craftista
+  annotations:
+    kargo.akuity.io/color: orange
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: frontend-warehouse
+      sources:
+        stages:
+          - frontend-staging-stage
+  promotionTemplate:
+    spec:
+      steps:
+        - task:
+            name: promote-to-prod
+          vars:
+            - name: envPath
+              value: env/prod/frontend
+            - name: argocdApp
+              value: frontend-prod
