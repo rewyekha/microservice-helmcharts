@@ -17,6 +17,11 @@ spec:
       steps:
         - task:
             name: promote-to-staging
+          vars:
+            - name: envPath
+              value: env/dev
+            - name: argocdApp
+              value: frontend-dev
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -38,19 +43,8 @@ spec:
       steps:
         - task:
             name: promote-to-prod
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Stage
-metadata:
-  name: frontend-prod-stage
-  namespace: craftista
-  annotations:
-    kargo.akuity.io/color: red
-spec:
-  requestedFreight:
-    - origin:
-        kind: Warehouse
-        name: frontend-warehouse
-      sources:
-        stages:
-          - frontend-staging-stage
+          vars:
+            - name: envPath
+              value: env/staging
+            - name: argocdApp
+              value: frontend-staging

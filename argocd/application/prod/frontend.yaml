@@ -1,22 +1,25 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: catalogue-prod
+  name: frontend-prod
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: craftista:frontend-prod-stage
 spec:
   project: craftista
   source:
     repoURL: https://github.com/nitheeshp-irl/microservice-helmcharts
     targetRevision: main
-    path: service-charts/catalogue
+    path: service-charts/frontend
     helm:
       valueFiles:
-        - ../../env/prod/catalogue/catalogue.yaml
-        - ../../env/prod/catalogue/catalogue-image.yaml
+        - "/env/prod/frontend/frontend-values.yaml"
   destination:
     server: https://kubernetes.default.svc
-    namespace: prod
+    namespace: frontend-prod
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

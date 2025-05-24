@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: frontend-dev
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: craftista:frontend-dev-stage
 spec:
   project: craftista
   source:
@@ -11,7 +13,7 @@ spec:
     path: service-charts/frontend
     helm:
       valueFiles:
-          - "/env/dev/frontend/frontend-values.yaml"
+        - /env/prod/frontend/frontend-image.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: frontend-dev
