@@ -19,7 +19,7 @@ spec:
             name: promote-to-staging
           vars:
             - name: envPath
-              value: env/dev
+              value: env/dev/frontend
             - name: argocdApp
               value: frontend-dev
 ---
@@ -45,6 +45,6 @@ spec:
             name: promote-to-prod
           vars:
             - name: envPath
-              value: env/staging
+              value: env/staging/frontend
             - name: argocdApp
               value: frontend-staging
