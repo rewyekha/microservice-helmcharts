@@ -4,7 +4,8 @@ metadata:
   name: frontend-warehouse
   namespace: craftista
 spec:
-  interval: 5m
+  freightCreationPolicy: Automatic
+  interval: 1440m
   subscriptions:
     - image:
         repoURL: docker.io/nitheesh86/microservice-frontend
