@@ -1,10 +1,7 @@
-# Microservice Helm Charts
-
+Microservice Helm Charts
 This repository contains Helm charts and GitOps configurations for deploying and promoting microservices across environments.
 
-## Repository Structure
-
-```
+Repository Structure
 microservice-helmcharts/
 ├── argocd/                # ArgoCD application manifests
 │   └── application/       # Application definitions
@@ -25,67 +22,48 @@ microservice-helmcharts/
 └── promotion/             # Legacy promotion scripts
     ├── scripts/           # Promotion scripts
     └── workflows/         # CI/CD workflow definitions
-```
-
-## GitOps Promotion Strategy with Kargo
-
+GitOps Promotion Strategy with Kargo
 This repository implements a GitOps-based promotion strategy using Kargo:
 
-1. **Automated deployment to development**:
-   - New Docker images are automatically detected and deployed to the dev environment
-   - ArgoCD syncs changes to the dev cluster
+Automated deployment to development:
 
-2. **Automatic promotion to staging with verification**:
-   - After successful deployment in dev, Kargo verifies the deployment health
-   - If verification passes, Kargo automatically promotes to staging
-   - Promotion updates the staging environment configuration files
+New Docker images are automatically detected and deployed to the dev environment
+ArgoCD syncs changes to the dev cluster
+Automatic promotion to staging with verification:
 
-3. **Manual approval for production**:
-   - Production deployments require manual approval in Kargo
-   - After approval, Kargo updates the production configuration files
+After successful deployment in dev, Kargo verifies the deployment health
+If verification passes, Kargo automatically promotes to staging
+Promotion updates the staging environment configuration files
+Manual approval for production:
 
-## Setup Instructions
+Production deployments require manual approval in Kargo
+After approval, Kargo updates the production configuration files
+Setup Instructions
+Prerequisites
+Kubernetes clusters for dev, stage, and prod environments
+ArgoCD installed on all clusters
+Kargo installed on all clusters
+Installation
+Install Kargo:
 
-### Prerequisites
+kubectl apply -f https://github.com/akuity/kargo/releases/latest/download/install.yaml
+Apply Kargo configurations:
 
-1. Kubernetes clusters for dev, stage, and prod environments
-2. ArgoCD installed on all clusters
-3. Kargo installed on all clusters
+kubectl apply -f kargo/
+Apply ArgoCD applications:
 
-### Installation
+kubectl apply -f argocd/application/dev/
+kubectl apply -f argocd/application/stage/
+kubectl apply -f argocd/application/prod/
+Usage
+Promoting with Kargo
+View available Freight:
 
-1. Install Kargo:
-   ```bash
-   kubectl apply -f https://github.com/akuity/kargo/releases/latest/download/install.yaml
-   ```
+kubectl get freight -n craftista
+Manually promote to production:
 
-2. Apply Kargo configurations:
-   ```bash
-   kubectl apply -f kargo/
-   ```
+kubectl kargo promote microservices-freight --stage stage --to-stage prod -n craftista
+View promotion history:
 
-3. Apply ArgoCD applications:
-   ```bash
-   kubectl apply -f argocd/application/dev/
-   kubectl apply -f argocd/application/stage/
-   kubectl apply -f argocd/application/prod/
-   ```
-
-## Usage
-
-### Promoting with Kargo
-
-1. View available Freight:
-   ```bash
-   kubectl get freight -n craftista
-   ```
-
-2. Manually promote to production:
-   ```bash
-   kubectl kargo promote microservices-freight --stage stage --to-stage prod -n craftista
-   ```
-
-3. View promotion history:
-   ```bash
-   kubectl get promotions -n craftista
-   ```# test
+kubectl get promotions -n craftista
+```# test
