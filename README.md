@@ -77,15 +77,15 @@ This repository implements a GitOps-based promotion strategy using Kargo:
 
 1. View available Freight:
    ```bash
-   kubectl get freight -n kargo-system
+   kubectl get freight -n craftista
    ```
 
 2. Manually promote to production:
    ```bash
-   kubectl kargo promote microservices-freight --stage stage --to-stage prod -n kargo-system
+   kubectl kargo promote microservices-freight --stage stage --to-stage prod -n craftista
    ```
 
 3. View promotion history:
    ```bash
-   kubectl get promotions -n kargo-system
+   kubectl get promotions -n craftista
    ```# test
