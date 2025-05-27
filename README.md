@@ -29,14 +29,9 @@ microservice-helmcharts/
 │   └── prod/            # Production environment values
 ├── kargo/               # Kargo promotion configuration
 │   ├── stages.yaml      # Stage definitions
-│   ├── freight.yaml     # Freight definition
 │   ├── warehouse.yaml   # Warehouse configuration
-│   ├── analysis-template.yaml  # Deployment verification
 │   └── promotion-policy.yaml   # Promotion policies
 ├── service-charts/      # Helm charts for each microservice
-└── promotion/          # Legacy promotion scripts
-    ├── scripts/        # Promotion scripts
-    └── workflows/      # CI/CD workflow definitions
 ```
 
 ## GitOps Promotion Strategy
