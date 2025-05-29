@@ -1,7 +1,7 @@
+image:
+  repository: nitheesh86/microservice-voting
+  tag: "latest"
 replicaCount: 2
-
-
-
 resources:
   limits:
     memory: "512Mi"

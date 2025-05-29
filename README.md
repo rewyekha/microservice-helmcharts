@@ -1,132 +1,134 @@
-# Microservice Helm Charts
+# Craftista Microservices Helm Charts
 
 A comprehensive GitOps-based solution for deploying and promoting microservices across environments using Helm charts, ArgoCD, and Kargo.
 
-## Table of Contents
-- [Overview](#overview)
-- [Repository Structure](#repository-structure)
-- [GitOps Promotion Strategy](#gitops-promotion-strategy)
-- [Setup Instructions](#setup-instructions)
-- [Usage](#usage)
-
 ## Overview
 
-This repository contains Helm charts and GitOps configurations for deploying and promoting microservices across development, staging, and production environments.
-The solution leverages ArgoCD for continuous deployment and Kargo for automated promotion workflows.
+This repository contains Helm charts and GitOps configurations for the Craftista microservices platform. It implements a complete deployment pipeline with:
+
+- **Helm Charts**: Templated Kubernetes manifests for each microservice
+- **ArgoCD**: Continuous deployment from Git to Kubernetes
+- **Kargo**: Automated promotion workflows between environments
 
 ## Repository Structure
 
 ```
 microservice-helmcharts/
 ├── argocd/                # ArgoCD application manifests
-│   └── application/       # Application definitions
-│       ├── dev/          # Development environment applications
-│       ├── stage/        # Staging environment applications
-│       └── prod/         # Production environment applications
-├── env/                  # Environment-specific configurations
-│   ├── dev/             # Development environment values
-│   ├── stage/           # Staging environment values
-│   └── prod/            # Production environment values
-├── kargo/               # Kargo promotion configuration
-│   ├── stages.yaml      # Stage definitions
-│   ├── warehouse.yaml   # Warehouse configuration
-│   └── promotion-policy.yaml   # Promotion policies
-├── service-charts/      # Helm charts for each microservice
+├── env/                   # Environment-specific configurations
+├── kargo/                 # Kargo promotion configuration
+└── service-charts/        # Helm charts for each microservice
 ```
 
-## GitOps Promotion Strategy
+For a detailed breakdown of the repository structure, see [repository-structure.md](argocd/repository-structure.md).
 
-This repository implements a GitOps-based promotion strategy using Kargo with the following workflow:
+## Microservices
 
-### Automated Development Deployment
+The Craftista platform consists of the following microservices:
 
-- New Docker images are automatically detected and deployed to the dev environment
-- ArgoCD syncs changes to the dev cluster
-- Automated verification ensures deployment health
+- **Frontend**: User interface service
+- **Catalogue**: Product catalog service
+- **Catalogue-DB**: Database for product information
+- **Recommendation**: Service for personalized product recommendations
+- **Voting**: Service for user ratings and reviews
 
-### Automatic Staging Promotion
-
-- After successful deployment in dev, Kargo verifies the deployment health
-- If verification passes, Kargo automatically promotes to staging
-- Promotion updates the staging environment configuration files
-
-### Production Deployment
-
-- Production deployments require manual approval in Kargo
-- After approval, Kargo updates the production configuration files
-- ArgoCD automatically syncs approved changes to production
-
-## Setup Instructions
+## Deployment Guide
 
 ### Prerequisites
 
-- Kubernetes clusters for dev, stage, and prod environments
-- ArgoCD installed on all clusters
-- Kargo installed on all clusters
+- Kubernetes cluster
+- ArgoCD installed on the cluster
+- Kargo installed (optional, for automated promotions)
 - `kubectl` CLI tool
-- Access to container registries
+- Git access to this repository
 
-### Installation
+### Quick Start
 
-1. Install Kargo:
+1. **Create the ArgoCD Project**:
+   ```bash
+   kubectl apply -f argocd/application/craftista-project.yaml
+   ```
+
+2. **Deploy to Development**:
+   ```bash
+   kubectl apply -f argocd/application/dev/
+   ```
+
+3. **Deploy to Staging**:
+   ```bash
+   kubectl apply -f argocd/application/staging/
+   ```
+
+4. **Deploy to Production**:
+   ```bash
+   kubectl apply -f argocd/application/prod/
+   ```
+
+5. **Set Up Kargo** (optional):
+   ```bash
+   kubectl apply -k kargo/
+   ```
+
+For a detailed deployment guide, see [deployment-guide-blog.md](argocd/deployment-guide-blog.md).
+
+## GitOps Workflow
+
+Our GitOps workflow follows these principles:
+
+1. **Git as Single Source of Truth**: All configuration is stored in this repository
+2. **Declarative Configuration**: Desired state is declared in YAML files
+3. **Automated Synchronization**: ArgoCD ensures the cluster state matches Git
+4. **Environment Promotion**: Changes flow from dev → staging → production
+
+## Environment Configuration
+
+Environment-specific configurations are stored in the `/env` directory:
+
+- **Development**: Uses latest images for rapid iteration
+- **Staging**: Uses specific image versions for testing
+- **Production**: Uses stable, tested image versions
+
+## Promotion Strategy
+
+We use Kargo to implement a promotion strategy:
+
+1. **Development**: Automatic deployment of new images
+2. **Staging**: Automated promotion after successful verification in dev
+3. **Production**: Manual approval required before promotion
+
+## Documentation
+
+- [Repository Structure](argocd/repository-structure.md)
+- [Deployment Guide](argocd/deployment-guide-blog.md)
+- [ArgoCD Implementation](argocd/blog-post.md)
+- [Kargo Setup](kargo/README.md)
+
+## Usage Examples
+
+### Manually Promote to Production
+
 ```bash
-kubectl apply -f https://github.com/akuity/kargo/releases/latest/download/install.yaml
+kubectl kargo promote frontend-freight --stage frontend-staging-stage --to-stage frontend-prod-stage -n craftista
 ```
 
-2. Apply Kargo configurations:
-```bash
-kubectl apply -f kargo/
-```
+### View Deployment Status
 
-3. Apply ArgoCD applications:
-```bash
-kubectl apply -f argocd/application/dev/
-kubectl apply -f argocd/application/stage/
-kubectl apply -f argocd/application/prod/
-```
-
-## Usage
-
-### Promoting with Kargo
-
-1. View available Freight:
-```bash
-kubectl get freight -n craftista
-```
-
-2. Manually promote to production:
-```bash
-kubectl kargo promote microservices-freight --stage stage --to-stage prod -n craftista
-```
-
-3. View promotion history:
-```bash
-kubectl get promotions -n craftista
-```
-
-### Monitoring Deployments
-
-1. Check deployment status:
-```bash
-kubectl get deployments -n <environment-namespace>
-```
-
-2. View ArgoCD sync status:
 ```bash
 kubectl get applications -n argocd
 ```
 
-### Troubleshooting
+### Monitor Promotions
 
-1. View Kargo logs:
 ```bash
-kubectl logs -n kargo -l app=kargo
+kubectl get promotions -n craftista
 ```
 
-2. Check ArgoCD application status:
-```bash
-kubectl describe application -n argocd <application-name>
-```
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
 ## License
 

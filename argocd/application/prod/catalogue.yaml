@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: catalogue-dev
+  name: catalogue-prod
   namespace: argocd
 spec:
   project: craftista
@@ -11,11 +11,13 @@ spec:
     path: service-charts/catalogue
     helm:
       valueFiles:
-        - ../../env/dev/catalogue.yaml
+        - ../../env/prod/catalogue.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: demo
+    namespace: catalogue-prod
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

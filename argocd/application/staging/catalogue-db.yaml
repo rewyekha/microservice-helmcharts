@@ -1,20 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: recommendation-dev
+  name: catalogue-db-staging
   namespace: argocd
 spec:
   project: craftista
   source:
     repoURL: https://github.com/nitheeshp-irl/microservice-helmcharts
     targetRevision: main
-    path: service-charts/recommendation
+    path: service-charts/catalogue-db
     helm:
       valueFiles:
-        - ../../env/dev/recommendation.yaml
+        - ../../env/staging/catalogue-db.yaml
+        
   destination:
     server: https://kubernetes.default.svc
-    namespace: demo
+    namespace: catalogue-db-staging
   syncPolicy:
     automated:
       prune: true

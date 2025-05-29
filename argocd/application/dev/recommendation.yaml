@@ -1,22 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: frontend-dev
+  name: recommendation-dev
   namespace: argocd
   annotations:
-    kargo.akuity.io/authorized-stage: craftista:frontend-dev-stage
+    kargo.akuity.io/authorized-stage: craftista:recommendation-dev-stage
 spec:
   project: craftista
   source:
     repoURL: https://github.com/nitheeshp-irl/microservice-helmcharts
     targetRevision: main
-    path: service-charts/frontend
+    path: service-charts/recommendation
     helm:
       valueFiles:
-        - /env/dev/frontend/frontend-values.yaml
+        - ../../env/dev/recommendation/recommendation-values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: frontend-dev
+    namespace: recommendation-dev
   syncPolicy:
     automated:
       prune: true

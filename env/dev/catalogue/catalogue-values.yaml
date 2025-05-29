@@ -1,3 +1,6 @@
+image:
+  repository: nitheesh86/microservice-catalogue
+  tag: "latest"
 replicaCount: 2
 resources:
   limits:
