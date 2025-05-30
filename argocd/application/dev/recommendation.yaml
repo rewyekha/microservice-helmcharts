@@ -16,7 +16,7 @@ spec:
         - ../../env/dev/recommendation/recommendation-values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: recommendation-dev
+    namespace: dev
   syncPolicy:
     automated:
       prune: true

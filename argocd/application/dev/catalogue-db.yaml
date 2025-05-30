@@ -13,7 +13,7 @@ spec:
     path: service-charts/catalogue-db
     helm:
       valueFiles:
-        - env/dev/catalogue-db/catalogue-db-values.yaml
+        - /env/dev/catalogue-db/catalogue-db-values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: catalogue-db-dev

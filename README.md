@@ -123,6 +123,22 @@ kubectl get applications -n argocd
 kubectl get promotions -n craftista
 ```
 
+## CI/CD Pipeline
+
+This repository includes a GitHub Actions workflow for building and pushing Docker images to Docker Hub:
+
+- **Repository**: nitheesh86/microservice-frontend
+- **Versioning**: Semantic versioning based on commit messages
+  - `feat:` - Minor version bump
+  - `fix:` - Patch version bump
+  - `BREAKING CHANGE` or `!:` - Major version bump
+
+### Setup Requirements
+
+1. Add a Docker Hub token as a GitHub secret named `DOCKER_HUB_TOKEN`
+
+2. Customize the workflow in `.github/workflows/docker-ci.yml` for additional microservices
+
 ## Contributing
 
 1. Fork the repository
