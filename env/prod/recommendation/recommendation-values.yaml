@@ -1,6 +1,7 @@
+image:
+  repository: nitheesh86/microservice-recommendation
+  tag: 1.0.1
 replicaCount: 2
-
-
 resources:
   limits:
     memory: "512Mi"

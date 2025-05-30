@@ -16,7 +16,7 @@ spec:
         - /env/dev/catalogue-db/catalogue-db-values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: catalogue-db-dev
+    namespace: dev
   syncPolicy:
     automated:
       prune: true
