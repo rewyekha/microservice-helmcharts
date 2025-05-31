@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: voting-staging
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: craftista:voting-staging-stage
 spec:
   project: craftista
   source:
@@ -11,11 +13,13 @@ spec:
     path: service-charts/voting
     helm:
       valueFiles:
-        - ../../env/staging/voting.yaml
+        - /env/staging/voting/voting-values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: voting-staging
+    namespace: staging
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

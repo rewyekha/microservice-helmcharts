@@ -16,7 +16,7 @@ spec:
         - "/env/prod/frontend/frontend-values.yaml"
   destination:
     server: https://kubernetes.default.svc
-    namespace: frontend-prod
+    namespace: prod
   syncPolicy:
     automated:
       prune: true

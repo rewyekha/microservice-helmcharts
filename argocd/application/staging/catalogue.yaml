@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: catalogue-staging
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: craftista:catalogue-staging-stage
 spec:
   project: craftista
   source:
@@ -11,11 +13,13 @@ spec:
     path: service-charts/catalogue
     helm:
       valueFiles:
-        - ../../env/staging/catalogue.yaml
+        - /env/staging/catalogue/catalogue-values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: catalogue-staging
+    namespace: staging
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

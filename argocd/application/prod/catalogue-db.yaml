@@ -11,10 +11,10 @@ spec:
     path: service-charts/catalogue-db
     helm:
       valueFiles:
-        - ../../env/prod/catalogue-db.yaml
+        - /env/prod/catalogue-db/catalogue-db-values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: catalogue-db-prod
+    namespace: prod
   syncPolicy:
     automated:
       prune: true

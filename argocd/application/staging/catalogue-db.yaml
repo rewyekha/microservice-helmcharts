@@ -11,12 +11,13 @@ spec:
     path: service-charts/catalogue-db
     helm:
       valueFiles:
-        - ../../env/staging/catalogue-db.yaml
-        
+        - /env/staging/catalogue-db/catalogue-db-values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: catalogue-db-staging
+    namespace: staging
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

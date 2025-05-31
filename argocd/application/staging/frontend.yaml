@@ -16,7 +16,7 @@ spec:
         - "/env/staging/frontend/frontend-values.yaml"
   destination:
     server: https://kubernetes.default.svc
-    namespace: frontend-staging
+    namespace: staging
   syncPolicy:
     automated:
       prune: true

@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: recommendation-prod
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: craftista:recommendation-prod-stage
 spec:
   project: craftista
   source:
@@ -11,10 +13,10 @@ spec:
     path: service-charts/recommendation
     helm:
       valueFiles:
-        - ../../env/prod/recommendation.yaml
+        - /env/prod/recommendation/recommendation-values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: recommendation-prod
+    namespace: prod
   syncPolicy:
     automated:
       prune: true
