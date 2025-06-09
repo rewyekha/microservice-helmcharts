@@ -1,9 +1,7 @@
 image:
-  repository: nitheesh86/microservice-frontend
-  tag: 1.0.11
-
+  repository: reyewkha/craftista-frontend
+  tag: latest
 replicaCount: 2
-
 resources:
   limits:
     memory: "512Mi"

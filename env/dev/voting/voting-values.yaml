@@ -1,6 +1,6 @@
 image:
-  repository: nitheesh86/microservice-voting
-  tag: 1.0.1
+  repository: reyewkha/craftista-voting
+  tag: latest
 replicaCount: 2
 resources:
   limits:
