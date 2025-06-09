@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: my/craftista-voting
+  repository: reyewkha/craftista-voting
   tag: latest
   pullPolicy: Always
 

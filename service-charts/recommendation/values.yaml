@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: my/craftista-recco
+  repository: reyewkha/craftista-recco
   tag: latest
   pullPolicy: Always
 

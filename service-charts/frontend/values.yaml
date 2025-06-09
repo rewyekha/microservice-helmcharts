@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: nitheesh86/microservice-frontend
+  repository: reyewkha/microservice-frontend
   tag: latest
   pullPolicy: Always
 
